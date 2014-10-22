@@ -60,9 +60,9 @@ figure, imshow(img_orig)
 title('Original image');
 
 figure, imshow(uint8(result_x_overall_convolution))
-title('Magnitude');
+title('Combined x axis convolution');
 
 figure, imshow(uint8(result_y_overall_convolution))
-title('Orientation');
+title('Combined y axis convolution');
 
 
