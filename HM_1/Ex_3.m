@@ -49,7 +49,7 @@ title('Original image');
 figure, imshow(uint8(Magnitude))
 title('Magnitude');
 
-figure, imshow(uint8(Orientation))
+figure, imshow(Orientation)
 title('Orientation');
 
 %% Demonstrate combined convolution that is possible due to associative law of convolution

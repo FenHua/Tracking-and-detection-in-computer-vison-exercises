@@ -1,4 +1,4 @@
-function [ convoluted_matrix ] = convolution( input_matrix, kernel, border_treatment_mode )
+function [ filtered_matrix ] = median_filter( input_matrix, kernel_size, border_treatment_mode )
     % CONVOLUTION Applies convolution to a specified matrix
     % Input:
     % @input_matrix - input matrix to be convoluted
@@ -10,26 +10,27 @@ function [ convoluted_matrix ] = convolution( input_matrix, kernel, border_treat
     % 
 
     [Image_x, Image_y, ~] = size(input_matrix);
-    [Kernel_x, Kernel_y,~] = size(kernel);
+    Kernel_x = kernel_size(1);
+    Kernel_y = kernel_size(2);
 
     pad_x = floor(Kernel_x/2);
     pad_y = floor(Kernel_y/2);
 
-    % Rotation of a kernel on 180 degrees
-    temp_Kernel = flipud(kernel);
-    kernel = double(flipud(temp_Kernel')');
-
-    convoluted_matrix  = zeros(Image_x,Image_y, 'double');
+    filtered_matrix  = zeros(Image_x, Image_y);
 
     padded_matrix = pad_matrix(input_matrix,pad_x,pad_y,border_treatment_mode);
 
     for x = 1:Image_x
         for y = 1:Image_y
-            frame = double( padded_matrix(x:x+(2*pad_x),y:y+(2*pad_y)) );   
-            convoluted_matrix(x,y) = kernel(:)'*frame(:);
+            frame = padded_matrix(x:x+(2*pad_x),y:y+(2*pad_y));
+            sorted_list_of_values = sort(frame(:));
+            median_index = ceil( size(sorted_list_of_values, 1)/2 );
+            median_value = sorted_list_of_values(median_index);
+            filtered_matrix(x,y) = median_value;
 
         end
     end
 
 end
+
 
