@@ -1,8 +1,10 @@
-function [ filtered_matrix ] = bilateral_filter( input_matrix, intensity_deviation, distance_deviation, border_treatment_mode )
-    % Applies median filter to input matrix
+function [ filtered_matrix ] = bilateral_filter( input_matrix, distance_deviation, intensity_deviation, border_treatment_mode )
+    % Applies bilateral filter to input matrix
     % Input:
     % @input_matrix - input matrix to be filtered
-    % @kernel_size - kernel size to use
+    % @intensity_deviation - deviation parameter for intensity
+    % @distance_deviation - deviation parameter for distance. Size of
+    % kernel will be 3*deviation.
     % @border_treatment_mode - if kernel doesn't fit into matrix, matrix is
     % extended using one of available modes: symmetric or replicate. You
     % can more about them in the specification of a pad_matrix function.
