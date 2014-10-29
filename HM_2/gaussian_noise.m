@@ -6,6 +6,5 @@ function [ resulted_matrix ] = gaussian_noise( matrix, deviation )
     
     resulted_matrix = double(matrix) + noise;
     
-
 end
 

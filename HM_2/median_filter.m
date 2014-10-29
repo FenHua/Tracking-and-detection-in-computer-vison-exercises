@@ -1,13 +1,13 @@
 function [ filtered_matrix ] = median_filter( input_matrix, kernel_size, border_treatment_mode )
-    % CONVOLUTION Applies convolution to a specified matrix
+    % Applies median filter to input matrix
     % Input:
-    % @input_matrix - input matrix to be convoluted
-    % @kernel - kernel matrix to applied to @input_matrix
+    % @input_matrix - input matrix to be filtered
+    % @kernel_size - kernel size to use
     % @border_treatment_mode - if kernel doesn't fit into matrix, matrix is
     % extended using one of available modes: symmetric or replicate. You
     % can more about them in the specification of a pad_matrix function.
     % Output:
-    % 
+    % @filtered_matrix - resulted matrix
 
     [Image_x, Image_y, ~] = size(input_matrix);
     Kernel_x = kernel_size(1);
