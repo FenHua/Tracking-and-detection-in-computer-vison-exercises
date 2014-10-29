@@ -14,7 +14,7 @@ function [ kernel ] = gaussian_2d_kernel( deviation )
 
     [X, Y] = meshgrid(interval, interval);
 
-    kernel = (1\(2*pi*deviation^2))*exp(-0.5*(X.^2 + Y.^2)/(deviation^2));
+    kernel = (1/(2*pi*deviation^2))*exp(-0.5*(X.^2 + Y.^2)/(deviation^2));
     
     % Normalization of a kernel
     kernel = kernel /(sum(kernel(:)));
