@@ -1,12 +1,16 @@
 
 %% Filtering with different parameters
+
+% Results with different parameters are available in the same directory by
+% the names of [distance_deviation]_[intensity_deviation].bmp
+
 img_orig = imread('lena.gif');
 
 result = bilateral_filter(img_orig, 11, 11, 'symmetric');
 result = uint8(result);
 imshow(result);
 
-imwrite(result, '11_11.bmp', 'bmp')
+%imwrite(result, '11_11.bmp', 'bmp')
 
 %% Comparing to gaussian smoothing
 
