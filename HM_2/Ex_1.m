@@ -51,7 +51,7 @@ figure, imshow(uint8(salt_pepper_noise_after_gaussian_filter));
 title('Gaussian filter applied to salt and pepper noise corrupted image');
 
 
-
+figure, imshow(img_orig);
 
 
 

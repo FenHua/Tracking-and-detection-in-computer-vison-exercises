@@ -6,7 +6,7 @@
 
 img_orig = imread('lena.gif');
 
-result = bilateral_filter(img_orig, 11, 11, 'symmetric');
+result = bilateral_filter(img_orig, 9, 11, 'symmetric');
 result = uint8(result);
 imshow(result);
 
