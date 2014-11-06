@@ -12,8 +12,10 @@ function R  = Harris_function( Image, n, s0, k, alpha)
     %acquiring guassian kernels
     g_dn = gaussian_2d_kernel(dev_dn);
     g_in = gaussian_2d_kernel(dev_in);
-
-
+    
+    %     g_dn = fspecial('gaussian', floor(6*dev_dn+1), dev_dn);
+    %     g_in = fspecial('gaussian', floor(6*dev_in+1), dev_in);
+    
     %smoothing with differential gaussian before applying gradients
     d_x = conv2(Gradient_x, g_dn, 'same');
     d_y = conv2(Gradient_y, g_dn, 'same');

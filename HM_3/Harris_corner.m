@@ -10,9 +10,16 @@ function R  = Harris_corner( Image, n, s0, k, alpha, threshold)
     dev_dn = 0.76 * dev_in;
 
     %acquiring guassian kernels
+    
     g_dn = gaussian_2d_kernel(dev_dn);
     g_in = gaussian_2d_kernel(dev_in);
-
+    
+    %     g_dn = fspecial('gaussian', floor(6*dev_dn+1), dev_dn);
+    %     g_in = fspecial('gaussian', floor(6*dev_in+1), dev_in);
+    
+    %     g_dn = fspecial('gaussian', floor(3*dev_dn), dev_dn);
+    %     g_in = fspecial('gaussian', floor(3*dev_in), dev_in);
+    
 
     %smoothing with differential gaussian before applying gradients
     d_x = conv2(Gradient_x, g_dn, 'same');
@@ -50,6 +57,6 @@ function R  = Harris_corner( Image, n, s0, k, alpha, threshold)
     end
     
     % Find local maximum
-    R = nlfilter(R, [3 3], @(x) all(x(5) > x([1:4 6:9]))*x(5) );
+    R = nlfilter(R, [3 3], @(x) all(x(5) > x([1:4 6:9])) );
 
 end
