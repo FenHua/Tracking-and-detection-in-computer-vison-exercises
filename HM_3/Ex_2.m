@@ -1,12 +1,12 @@
 %
 
-% img = rgb2gray( imread('peppers.png') );
-img = imread('lena.gif');
+img = imread('cameraman.tif')
+% img = imread('lena.gif');
 img_2 = imresize(img, 0.5);
 
 resolution_levels = 5;
 s0 = 1.5;
-k = 1.2;
+k = 2;
 alpha = 0.06;
 threshold_h = 1500;
 threshold_l = 6;
@@ -14,6 +14,10 @@ threshold_l = 6;
 
 result = Harris_Laplace( img, s0, k, alpha, threshold_h, threshold_l, resolution_levels);
 result_2 = Harris_Laplace( img_2, s0, k, alpha, threshold_h, threshold_l, resolution_levels);
+
+%% 
+
+clc; close all;
 
 figure, imshow(img);
 hold on;
