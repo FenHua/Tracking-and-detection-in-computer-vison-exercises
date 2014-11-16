@@ -35,7 +35,7 @@ function [ finalH ] = DLT( X, Xw )
 
     [U, S, V] = svd(A);
 
-    % Picking up the smalled singular vector from V
+    % Picking up the smallest singular vector from V
 
     H = reshape(V(:,9),[3 3])';
 
