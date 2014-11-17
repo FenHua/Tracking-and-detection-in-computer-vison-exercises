@@ -18,7 +18,7 @@ function [ result ] = train_fern_system( training_data, class_lables, system_str
     % Case where we train system one more time.
     if isempty(old_occurence_matrix)
         % We use ones, according to the paper note.
-        result.occurence_matrix = ones(2^S, result.number_of_classes_H, result.number_of_ferns_M);
+        result.occurence_matrix = ones(2^result.fern_depth_s, result.number_of_classes_H, result.number_of_ferns_M);
         random_index = randperm(size_of_feature_vector);
         result.fern_indexes = zeros(result.number_of_ferns_M, result.fern_depth_s);
         
@@ -37,7 +37,7 @@ function [ result ] = train_fern_system( training_data, class_lables, system_str
    
         for current_fern_number = 1:number_of_ferns_M
 
-            current_fern_region = fern_indexes(current_fern_number);
+            current_fern_region = result.fern_indexes(current_fern_number);
             feature_vector_for_current_fern = training_data(current_feature_number, current_fern_region);
             converted_feature_vector = vector2fern_feature(feature_vector_for_current_fern);
             result.occurence_matrix(converted_feature_vector, class_lables(current_feature_number), current_fern_number) = ...
