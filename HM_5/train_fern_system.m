@@ -23,23 +23,25 @@ function [ result ] = train_fern_system( training_data, class_lables, system_str
         result.fern_indexes = zeros(result.number_of_ferns_M, result.fern_depth_s);
         
         for current_fern_number = 1:result.number_of_ferns_M
-            begin_index = (current_fern_number-1)*result.fern_depth_s;
+            begin_index = (current_fern_number-1)*result.fern_depth_s + 1;
             end_index = current_fern_number*result.fern_depth_s;
             result.fern_indexes(current_fern_number, :) = random_index(begin_index:end_index);
         end
       
     else
         result.occurence_matrix = old_occurence_matrix;
+        result.fern_indexes = system_struct.fern_indexes;
     end
     
     
     for current_feature_number = 1:amount_of_training_data
    
-        for current_fern_number = 1:number_of_ferns_M
+        for current_fern_number = 1:result.number_of_ferns_M
 
-            current_fern_region = result.fern_indexes(current_fern_number);
+            current_fern_region = result.fern_indexes(current_fern_number, :);
             feature_vector_for_current_fern = training_data(current_feature_number, current_fern_region);
-            converted_feature_vector = vector2fern_feature(feature_vector_for_current_fern);
+            % +1 because Matlab index arrays starting from 1
+            converted_feature_vector = vector2fern_feature(feature_vector_for_current_fern) + 1;
             result.occurence_matrix(converted_feature_vector, class_lables(current_feature_number), current_fern_number) = ...
                 result.occurence_matrix(converted_feature_vector, class_lables(current_feature_number), current_fern_number) + 1;
         end
