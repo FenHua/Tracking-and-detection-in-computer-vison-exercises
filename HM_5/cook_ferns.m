@@ -80,7 +80,7 @@ end
 
 normsys = normalize_fern_training_system(fern_training_system);
 
-bi = classify_using_fern_system(normsys, original_image_train_vector(:)')
+check = classify_using_fern_system(normsys, original_image_train_vector(:)')
 
 
 

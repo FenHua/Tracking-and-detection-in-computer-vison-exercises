@@ -1,4 +1,8 @@
 
+load('ferns_system_20_class.mat')
+
+normsys = normalize_fern_training_system(fern_training_system);
+
 % Points that the classifier was trained on
 Image_orig = rgb2gray(imread('img1.ppm'));
 trained_corners = corner(Image_orig, 'Harris', 20);
