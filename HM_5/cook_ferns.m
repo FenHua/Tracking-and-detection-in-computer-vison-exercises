@@ -2,7 +2,7 @@
 Image = rgb2gray(imread('img1.ppm'));
 lambda_region = [0.6 1.5];
 angles_region = [-pi pi];
-transformations_amount = 100;
+transformations_amount = 1000;
 train_patch_size = 30;
 
 % Choose only the stable ones.
@@ -40,10 +40,9 @@ end
 
 %% Small 30x30 images that are taken from 50x50 ones after transformation.
 
+transformations = Random_Transformations( transformations_amount, lambda_region, angles_region );
 
-for current_class_number = 1:amount_of_classes
-    
-    transformations = Random_Transformations( transformations_amount, lambda_region, angles_region );
+for current_class_number = 1:amount_of_classes 
 
     training_set = zeros(transformations_amount+1, train_patch_size*train_patch_size);
     class_lables = ones(1, transformations_amount + 1)*current_class_number;
@@ -79,9 +78,9 @@ for current_class_number = 1:amount_of_classes
     fern_training_system = train_fern_system(training_set, class_lables, fern_training_system);
 end
 
-% normsys = normalize_fern_training_system(fern_training_system);
-% 
-% bi = classify_using_fern_system(normsys, original_image_train_vector(:)')
+normsys = normalize_fern_training_system(fern_training_system);
+
+bi = classify_using_fern_system(normsys, original_image_train_vector(:)')
 
 
 
