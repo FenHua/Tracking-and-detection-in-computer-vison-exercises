@@ -1,6 +1,7 @@
 function [ finalH ] = DLT( X, Xw )
     %Direct Linear Transformation 
     %   Detailed explanation goes here
+    
 
     % Normalize X and Xw
     Ux = Normalize_U_T(X);

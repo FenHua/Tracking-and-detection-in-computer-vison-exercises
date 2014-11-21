@@ -9,7 +9,7 @@ trained_corners = corner(Image_orig, 'Harris', 200);
 first_image_class_amount = size(trained_corners, 1);
 
 % New image.
-Image = rgb2gray(imread('img6.ppm'));
+Image = rgb2gray(imread('img2.ppm'));
 corners_to_classify = corner(Image, 'Harris', 300);
 amount_of_classes = size(corners_to_classify, 1);
 
@@ -46,24 +46,35 @@ end
 
 %% Classify points based on extracted patches
 
-points_posterior = zeros(amount_of_classes, first_image_class_amount, 'double');
+class_correspondence = zeros(first_image_class_amount, 2, 'double');
 
 for current_point_number = 1:amount_of_classes
     
     current_point_patch = patch_of_original_big_images(:, :, current_point_number);
-    points_posterior(current_point_number, :) = classify_using_fern_system(normsys, current_point_patch(:)');
+    posteriors = classify_using_fern_system(normsys, current_point_patch(:)');
+    maximum = find(posteriors==max(posteriors));
+    most_probable_class = maximum(1);
+    
+    if class_correspondence(most_probable_class, 2) < posteriors(most_probable_class)
+        class_correspondence(most_probable_class, 1) = current_point_number;
+        class_correspondence(most_probable_class, 2) = posteriors(most_probable_class);
+    end
+    
 end
 
 %% Create matching array. First row point of first image, second row corresponding point from second image.
 
-matches = zeros(2, first_image_class_amount);
+matched_amount = sum(class_correspondence(:, 1) > 0);
+matches = zeros(2, matched_amount);
+matched_pair_count = 1;
+
 for i = 1:first_image_class_amount
     
-    current_column = points_posterior(:, i);
-    matches(1, i) = i;
-    maximum = find(current_column==max(current_column));
-    maximum = maximum(1);
-    matches(2, i) = maximum;
+    if class_correspondence(i, 1) > 0
+        matches(1, matched_pair_count) = i;
+        matches(2, matched_pair_count) = class_correspondence(i, 1);
+        matched_pair_count = matched_pair_count + 1;
+    end
 end
 
 %% 
@@ -79,7 +90,6 @@ S(3, :) = corners_to_classify(1,matches(2, :));
 S(4, :) = corners_to_classify(2,matches(2, :));
 
 %[H Si] = RANSAC_DLT(S, 5, 1, 70, 50);
-
 [H Si] = RANSAC_adaptive(S, 5, 10, 0.99);
 
 im1 = Image_orig;

@@ -40,17 +40,17 @@ function [ newH, inliers_set ] = RANSAC_adaptive( S, s, t, p)
         end
         
        amount_of_inliers = length(Si);
-       ratio_of_outliers = 1 - amount_of_inliers/total_amount_of_points
+       ratio_of_outliers = 1 - amount_of_inliers/total_amount_of_points;
        
-       if ratio_of_outliers < lowest_ratio_of_outliners
+       if ratio_of_outliers < lowest_ratio_of_outliners;
            lowest_ratio_of_outliners = ratio_of_outliers;
-           N = log(1-p)/(log(1-(1-ratio_of_outliers)^s))
+           N = log(1-p)/(log(1-(1-ratio_of_outliers)^s));
        end
 
 
         if length(Si) > best_inliers_count
 
-            best_inliers_count = length(Si)
+            best_inliers_count = length(Si);
             inliers_set = S(: ,Si);
 
         end

@@ -2,13 +2,15 @@
 Image = rgb2gray(imread('img1.ppm'));
 lambda_region = [0.6 1.5];
 angles_region = [-pi pi];
-transformations_amount = 1000;
+transformations_amount = 4000;
 train_patch_size = 30;
 
 % Choose only the stable ones.
-C = corner(Image, 'Harris', 20);
+C = corner(Image, 'Harris', 200);
 amount_of_classes = size(C, 1);
 fern_training_system = struct('fern_depth_s', 10, 'number_of_ferns_M', 20, 'number_of_classes_H', amount_of_classes, 'occurence_matrix', []);
+
+Image_tmp = padarray(Image,[50 50],'symmetric');
 
 %% Display selected points.
 
@@ -27,10 +29,10 @@ patch_of_original_big_images = zeros(patch_size(1), patch_size(2), amount_of_cla
 
 for current_point_number = 1:amount_of_classes
     
-    col = C(current_point_number, 1);
-    row = C(current_point_number, 2);
+    col = C(current_point_number, 1) + 50;
+    row = C(current_point_number, 2) + 50;
 
-    image_patch = Image( (row-patch_size/2):(row+patch_size/2)-1, (col-patch_size/2):(col+patch_size/2)-1);
+    image_patch = Image_tmp( (row-patch_size/2):(row+patch_size/2)-1, (col-patch_size/2):(col+patch_size/2)-1);
     patch_of_original_big_images(:, :, current_point_number) = image_patch;
 end
 
@@ -77,6 +79,8 @@ for current_class_number = 1:amount_of_classes
 
     fern_training_system = train_fern_system(training_set, class_lables, fern_training_system);
 end
+
+save('ferns_system_200_4000_class.mat', 'fern_training_system');
 
 normsys = normalize_fern_training_system(fern_training_system);
 
