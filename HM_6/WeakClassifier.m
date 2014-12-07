@@ -5,6 +5,12 @@ classdef WeakClassifier < handle
       Splitting_value;
       Smaller_partition_class;
       Error_rate;
+      
+      % Face detection attributes
+      Mean;
+      Max_pos;
+      Min_pos;
+      R;
    end
    methods
        

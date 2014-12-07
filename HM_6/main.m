@@ -1,5 +1,5 @@
 
-max_number_of_classifiers = 50;
+max_number_of_classifiers = 10;
 
 load('data3.mat');
 
