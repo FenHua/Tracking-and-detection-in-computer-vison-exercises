@@ -28,7 +28,7 @@ classdef myHaarFeatures
             
         end
         
-        function responses = Compute_Haar_response(obj, image)
+        function responses = Compute_Haar_response(obj, image, scale)
             
 %           int_img = calc_Integral_Image(image);
             
@@ -43,10 +43,11 @@ classdef myHaarFeatures
                 
                 
                 type = obj.featuresType(1,i);
-                r = obj.featuresPositions(1,i);
-                c = obj.featuresPositions(2,i);
-                w = obj.featuresAttributes(1,i);
-                h = obj.featuresAttributes(2,i);
+                
+                r = floor(obj.featuresPositions(1,i) * scale);
+                c = floor(obj.featuresPositions(2,i) * scale);
+                w = floor(obj.featuresAttributes(1,i) * scale);
+                h = floor(obj.featuresAttributes(2,i) * scale);
                 
                
                 

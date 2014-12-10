@@ -30,7 +30,7 @@ classdef AdaboostClassifierFace < handle
         end
         
          % Page 9 of original paper: strong classifier equation
-        obj.Strong_classifier_confidence_threshold = sum(obj.Classifiers_confidence)*0.83;
+        obj.Strong_classifier_confidence_threshold = sum(obj.Classifiers_confidence)*0.7;
       end
       
       function lables = classify(obj, testing_set)
