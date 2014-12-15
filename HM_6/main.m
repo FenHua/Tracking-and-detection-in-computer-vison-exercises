@@ -1,7 +1,7 @@
 
 max_number_of_classifiers = 10;
 
-load('data3.mat');
+load('data1.mat');
 
 lables = dat(:, 3);
 training_set = dat(:, [1 2]);

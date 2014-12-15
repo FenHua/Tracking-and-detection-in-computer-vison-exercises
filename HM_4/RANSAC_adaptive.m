@@ -1,4 +1,4 @@
-function [ newH, inliers_set ] = RANSAC_adaptive( S, s, t, p)
+function [ newH, inliers_set] = RANSAC_adaptive( S, s, t, p)
     %UNTITLED Summary of this function goes here
     %   Detailed explanation goes here
 
@@ -50,7 +50,7 @@ function [ newH, inliers_set ] = RANSAC_adaptive( S, s, t, p)
 
         if length(Si) > best_inliers_count
 
-            best_inliers_count = length(Si)
+            best_inliers_count = length(Si);
             inliers_set = S(: ,Si);
 
         end
