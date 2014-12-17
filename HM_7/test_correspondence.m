@@ -1,8 +1,8 @@
 
 % Select image number to compare with the 0 one.
-image_number = 23;
+image_number = 35;
 
-load('correspondance_cell.mat');
+load('correspondance_cell_5.mat');
 img = rgb2gray( imread('img_sequence/0000.png') );
 
 img_name = sprintf('img_sequence/%04d.png', image_number);

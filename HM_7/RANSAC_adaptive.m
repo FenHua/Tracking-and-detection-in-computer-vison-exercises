@@ -25,7 +25,7 @@ function [ newH, best_si ] = RANSAC_adaptive( S, s, t, p)
 
         Xwnew = Xwnew ./ repmat( Xwnew(3,:), 3, 1 );
 
-        dist = sqrt( (Xwnew(1,:) - Xwall(1,:)).^2 +  (Xwnew(2,:) - Xwall(2,:)).^2);
+        dist = sqrt( (Xwnew(1,:) - Xwall(1,:)).^2 + (Xwnew(2,:) - Xwall(2,:)).^2);
 
         Si = [];
 

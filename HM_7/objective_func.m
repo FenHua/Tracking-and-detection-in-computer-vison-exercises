@@ -16,7 +16,7 @@ function [ result ] = objective_func( x, A, M, m )
 %     rotation_matrix_gamma = [ cos(gamma_val), sin(gamma_val), 0; -sin(gamma_val), cos(gamma_val), 0; 0, 0, 1];
 %     rotation_matrix = rotation_matrix_alpha * rotation_matrix_beta * rotation_matrix_gamma;
 
-      rotation_matrix = rotation_matrix_3d(alpha_val, beta_val, gamma_val);
+      rotation_matrix = rotation_matrix_3d(alpha_val, beta_val, gamma_val)
 
 %     rotation_matrix = eval(subs(rotation_matrix, [alphaa, betaa, gammaa], [alpha_val, beta_val, gamma_val]));
 
@@ -29,6 +29,8 @@ function [ result ] = objective_func( x, A, M, m )
     
     result = (projected_m - m);
     result = sum(sum(result.*result));
+
+%     result = sqrt(sum(result.*result));
 
 end
 

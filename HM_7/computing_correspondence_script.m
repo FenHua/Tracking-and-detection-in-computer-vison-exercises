@@ -7,12 +7,6 @@ img = rgb2gray( imread('img_sequence/0000.png') );
 
 [f1, descriptor_of_initial_points] = vl_sift(single(img));
 
-heterogeneous_coords_initial = [ f1(1:2, :); ones(1, size(f1, 2)) ];
-
-% Using multiplication property. Every column will be a corresponding 3d
-% coordinate.
-global_coords_initial = inv(intrinsic_matrix_A) * heterogeneous_coords_initial;
-
 %% Matching
 
 correspondence_cell = cell(1, 45);
@@ -20,7 +14,14 @@ correspondence_cell = cell(1, 45);
 % First image feature points coordinates
 correspondence_cell{1} = f1(1:2, :);
 
+% In each correspondence array in correspondence_cell:
+% first row is a number of matched point from the first image
+% second and third values are for coordinates of matched point on the
+% current image.
+
 for image_number = 2:45
+    
+    image_number
     
     img_name = sprintf('img_sequence/%04d.png', image_number - 1);
 
@@ -28,7 +29,16 @@ for image_number = 2:45
     
     [f2, descriptor_of_next_image_points] = vl_sift(single(img_next));
 
-    [matches, scores] = vl_ubcmatch(descriptor_of_initial_points, descriptor_of_next_image_points);
+    [matches, scores] = vl_ubcmatch(descriptor_of_initial_points, descriptor_of_next_image_points, 3.0);
+    
+    % Get pairs with smallest distance
+%     [sorted_values, sort_index] = sort(scores, 'descend');
+%     index_of_the_smallest_scores = sort_index(end-30:end);
+%     matches = matches(:, index_of_the_smallest_scores);
+%     matches = fliplr(matches);
+%     [~, ind, ~] = unique(matches(2, :));
+%     matches = matches(:, ind);
+
 
     S =[];
     S(1, :) = f1(1, matches(1, :));
@@ -36,7 +46,7 @@ for image_number = 2:45
     S(3, :) = f2(1, matches(2, :));
     S(4, :) = f2(2, matches(2, :));
 
-    [H, inliers_numbers] = RANSAC_adaptive(S, 5, 1, 0.99);
+    [H, inliers_numbers] = RANSAC_adaptive(S, 5, 0.5, 0.99);
     
     correspondence_array = zeros(3, size(inliers_numbers, 2), 'double');
     

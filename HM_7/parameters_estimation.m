@@ -13,6 +13,9 @@ for current_pose = 2:45
 
     first_image_matched_points = first_image_points_array(:, correspondence_array(1, :));
     first_image_matched_points_homog = [ first_image_matched_points; ones(1, size(first_image_matched_points, 2)) ];
+    
+    % Using multiplication property. Every column will be a corresponding 3d
+    % coordinate.
     M = inv(A)*first_image_matched_points_homog;
 
     M = [M; ones(1, size(M, 2))];
@@ -21,7 +24,9 @@ for current_pose = 2:45
 
     m = [m; ones(1, size(m, 2))];
 
-    results(current_pose, :) = fminsearch(@(x) objective_func(x, A, M, m), results(current_pose-1, :), optimset('MaxFunEvals', 1000000000));
+    results(current_pose, :) = fminsearch(@(x) objective_func(x, A, M, m), results(current_pose-1, :), optimset('MaxIter', 10000000000));
+    
+%     results(current_pose, :) = lsqnonlin(@(x) objective_func(x, A, M, m), results(current_pose-1, :), optimset('MaxIter', 10000000000));
 end
 
 %% World coordinates
@@ -38,5 +43,9 @@ for current_pose = 1:45
     world_coordinates(:, current_pose) = -(rotation_matrix_3d(alpha_val, beta_val, gamma_val)')*(position_vector');   
 end
 
+plot(world_coordinates(1, :), world_coordinates(2, :));
+labels = cellstr( num2str([0:44]') );
+text(world_coordinates(1, :), world_coordinates(2, :), labels, 'VerticalAlignment','bottom', ...
+                             'HorizontalAlignment','right');
 
-plot3(world_coordinates(2, :), world_coordinates(1, :), world_coordinates(3, :));
+% plot3(world_coordinates(1, :), world_coordinates(2, :), world_coordinates(3, :));
