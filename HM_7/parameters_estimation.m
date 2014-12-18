@@ -24,9 +24,9 @@ for current_pose = 2:45
 
     m = [m; ones(1, size(m, 2))];
 
-    results(current_pose, :) = fminsearch(@(x) objective_func(x, A, M, m), results(current_pose-1, :), optimset('MaxIter', 10000000000));
+   results(current_pose, :) = fminsearch(@(x) objective_func(x, A, M, m), results(current_pose-1, :), optimset('MaxIter', 10000000000));
     
-%     results(current_pose, :) = lsqnonlin(@(x) objective_func(x, A, M, m), results(current_pose-1, :), optimset('MaxIter', 10000000000));
+   %results(current_pose, :) = lsqnonlin(@(x) objective_func(x, A, M, m), results(current_pose-1, :));
 end
 
 %% World coordinates

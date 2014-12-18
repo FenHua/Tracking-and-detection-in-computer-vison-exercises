@@ -17,13 +17,18 @@ img_next = rgb2gray( imread('img_sequence/0008.png') );
 % By increasing it we will get less points but the most realiable.
 [matches, scores] = vl_ubcmatch(descriptor_of_initial_points, descriptor_of_next_image_points, 3.0);
 
-S =[];
-S(1, :) = f1(1, matches(1, :));
-S(2, :) = f1(2, matches(1, :));
-S(3, :) = f2(1, matches(2, :));
-S(4, :) = f2(2, matches(2, :));
+% S =[];
+% S(1, :) = f1(1, matches(1, :));
+% S(2, :) = f1(2, matches(1, :));
+% S(3, :) = f2(1, matches(2, :));
+% S(4, :) = f2(2, matches(2, :));
+% 
+% [H, inliers_numbers] = RANSAC_adaptive(S, 5, 1, 0.8);
 
-[H, inliers_numbers] = RANSAC_adaptive(S, 5, 0.2, 0.8);
+x_1 = f1(1:2, matches(1, :));
+x_2 = f2(1:2, matches(2, :));
+
+[H, inliers_numbers] = ransacfithomography(x_1, x_2, 0.01);
 
 %% Display together
 

@@ -29,24 +29,29 @@ for image_number = 2:45
     
     [f2, descriptor_of_next_image_points] = vl_sift(single(img_next));
 
-    [matches, scores] = vl_ubcmatch(descriptor_of_initial_points, descriptor_of_next_image_points, 3.0);
+    [matches, scores] = vl_ubcmatch(descriptor_of_initial_points, descriptor_of_next_image_points);
     
     % Get pairs with smallest distance
-%     [sorted_values, sort_index] = sort(scores, 'descend');
-%     index_of_the_smallest_scores = sort_index(end-30:end);
-%     matches = matches(:, index_of_the_smallest_scores);
-%     matches = fliplr(matches);
-%     [~, ind, ~] = unique(matches(2, :));
-%     matches = matches(:, ind);
+    %     [sorted_values, sort_index] = sort(scores, 'descend');
+    %     index_of_the_smallest_scores = sort_index(end-30:end);
+    %     matches = matches(:, index_of_the_smallest_scores);
+    %     matches = fliplr(matches);
+    %     [~, ind, ~] = unique(matches(2, :));
+    %     matches = matches(:, ind);
 
 
-    S =[];
-    S(1, :) = f1(1, matches(1, :));
-    S(2, :) = f1(2, matches(1, :));
-    S(3, :) = f2(1, matches(2, :));
-    S(4, :) = f2(2, matches(2, :));
+    %     S =[];
+    %     S(1, :) = f1(1, matches(1, :));
+    %     S(2, :) = f1(2, matches(1, :));
+    %     S(3, :) = f2(1, matches(2, :));
+    %     S(4, :) = f2(2, matches(2, :));
+    % 
+    %     [H, inliers_numbers] = RANSAC_adaptive(S, 5, 0.5, 0.99);
+    
+    x_1 = f1(1:2, matches(1, :));
+    x_2 = f2(1:2, matches(2, :));
 
-    [H, inliers_numbers] = RANSAC_adaptive(S, 5, 0.5, 0.99);
+    [H, inliers_numbers] = ransacfithomography(x_1, x_2, 0.00001);
     
     correspondence_array = zeros(3, size(inliers_numbers, 2), 'double');
     
