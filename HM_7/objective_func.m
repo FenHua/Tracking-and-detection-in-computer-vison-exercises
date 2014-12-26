@@ -17,8 +17,13 @@ function [ result ] = objective_func( x, A, M, m )
     
     projected_m = projection_matrix*M;
     
+    projected_m(1, :) = projected_m(1, :) ./ projected_m(3, :);
+    projected_m(2, :) = projected_m(2, :) ./ projected_m(3, :);
+    projected_m(3, :) = ones(1, size(projected_m(3, :), 2));
+    
     result = (projected_m - m);
     result = sum(sum(result.*result));
+    
     % 4th task. Using it for lsqnonlin()
     % result = sqrt(sum(result.*result));
 
