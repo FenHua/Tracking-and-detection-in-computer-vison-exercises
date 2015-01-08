@@ -110,36 +110,17 @@ for i = 1:1
             newP = current_parameter + newP' - [zeros(4, 1) zeros(4, 1) ones(4,1)]';
 
 
-            %
-
-
             update_homography = DLT(current_parameter, newP);
 
 
             new_homography = current_homography * update_homography;
 
 
-    %         current_homography = new_homography;
-
-
-    %         new_parameter = new_homography * current_parameter;
-
             new_parameter = new_homography * initial_parameter;
 
             new_parameter = new_parameter ./ repmat( new_parameter(3,:), 3, 1 );
 
             current_parameter = new_parameter;
-
-            % plot and see if it works
-%             imshow(uint8(current_frame));
-%             hold on;
-%             plot(current_parameter(1,:),current_parameter(2,:),'r*');
-
-
-
-            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
 
 
         end
