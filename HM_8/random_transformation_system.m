@@ -39,8 +39,8 @@ function [ original_intensities, warped_intensities, displacement_vector ] = ran
     
     amount_of_grid_elements = numel(x);
 
-    original_intensities = zeros(1, amount_of_grid_elements);
-    warped_intensities = zeros(1, amount_of_grid_elements);
+    original_intensities = zeros(amount_of_grid_elements, 1);
+    warped_intensities = zeros(amount_of_grid_elements, 1);
 
     for coordinate_number = 1:amount_of_grid_elements
 

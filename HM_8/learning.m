@@ -23,7 +23,7 @@ MatrixI =[];
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
         % normalize warped intensities
-        Iw = Normalize(Iw)';
+        Iw = Normalize(Iw);
     
         rand_noise = (b-a).*rand(size(Iw,1), 1) + a;
 
@@ -31,7 +31,7 @@ MatrixI =[];
         
         % normalize original template intensities
         
-        I = Normalize(I)';
+        I = Normalize(I);
         
         
      
