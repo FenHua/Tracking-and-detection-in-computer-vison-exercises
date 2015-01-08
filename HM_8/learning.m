@@ -1,4 +1,4 @@
-function [ MatrixA ] = learning( img, x_y_random_value_range, rectangle_top_left_x_y, rectangle_bottom_right_x_y )
+function [ MatrixA ] = learning( img, x_y_random_value_range, rectangle_top_left_x_y, rectangle_bottom_right_x_y, n )
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 

@@ -26,7 +26,17 @@ function [ original_intensities, warped_intensities, displacement_vector ] = ran
 
     x_span = rectangle_top_left_x_y(1):5:rectangle_top_right_x_y(1);
     y_span = rectangle_top_right_x_y(2):5:rectangle_bottom_right_x_y(2);
-
+    
+    % Add last elements in case they are not divided by 5
+    
+    if x_span(end) ~= rectangle_top_right_x_y(1)
+        x_span(end + 1) = rectangle_top_right_x_y(1);
+    end
+    
+    if y_span(end) ~= rectangle_bottom_right_x_y(2)
+        y_span(end + 1) = rectangle_bottom_right_x_y(2);
+    end
+        
     [x, y] = meshgrid(x_span, y_span);
 
     grid_coords = [x(:) y(:)];
