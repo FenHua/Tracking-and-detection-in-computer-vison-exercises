@@ -34,7 +34,10 @@ grid_coords = [ grid_coords'; ones(1, size(grid_coords, 1))];
 
 
 
+% Initial coords and current. At the begining they are the same.
 current_parameter = cords;
+initial_parameter = cords;
+
 gridpoints = grid_coords;
 
 current_homography = [1 0 0; 0 1 0 ;0 0 1];
@@ -58,10 +61,11 @@ for i = 2:2
 
     %multiplying by the same matrix to get better estimation of the
     %parameter - 5 because it is adviced in the exercise
-    for mult = 1 : 1
+    for mult = 1 : 100
 
 
-
+        current_homography = DLT(initial_parameter, current_parameter);
+        
         gridpositions = current_homography * gridpoints ;  %to warp according to the current parameters
         gridpositions = gridpositions ./ repmat( gridpositions(3,:), 3, 1 );
 
@@ -100,10 +104,12 @@ for i = 2:2
         new_homography = current_homography * update_homography;
 
 
-        current_homography = new_homography;
+%         current_homography = new_homography;
 
 
-        new_parameter = new_homography * current_parameter;
+%         new_parameter = new_homography * current_parameter;
+        
+        new_parameter = new_homography * initial_parameter;
 
         new_parameter = new_parameter ./ repmat( new_parameter(3,:), 3, 1 );
 
