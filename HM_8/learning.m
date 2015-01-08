@@ -2,11 +2,11 @@ function [ MatrixA ] = learning( img, x_y_random_value_range, rectangle_top_left
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 
-n = 800;
+n = 10000;
 
 %range for random noise
-a = -0.5;
-b = 0.5;
+a = -0.1;
+b = 0.1;
 
 MatrixP = [];
 MatrixI =[];
@@ -36,7 +36,7 @@ MatrixI =[];
         
      
         %calculate normalized differences
-        diffI = I - Iw;
+        diffI = Iw - I;
         
         %add columns
         MatrixI = [MatrixI diffI];
