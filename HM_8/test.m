@@ -45,7 +45,7 @@ current_frame = frames(:,:,1);
 
 for j = 1 : size(gridpoints, 2)
     
-   original_intensities = [original_intensities; current_frame(round(gridpoints(2,j)), round(gridpoints(1,j))) ];
+   original_intensities = [original_intensities; double(img( round(gridpoints(2,j)), round(gridpoints(1,j)) )) ];
 end
 
 

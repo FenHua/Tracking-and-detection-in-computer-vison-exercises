@@ -5,8 +5,8 @@ function [ MatrixA ] = learning( img, x_y_random_value_range, rectangle_top_left
 n = 10000;
 
 %range for random noise
-a = -0.1;
-b = 0.1;
+a = -0.01;
+b = 0.01;
 
 MatrixP = [];
 MatrixI =[];
