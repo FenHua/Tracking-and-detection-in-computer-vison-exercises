@@ -67,5 +67,6 @@ imshow(reference_img);
 hold on;
 
 rectangle('Position', [x_c - width, y_c - height, width*2, height*2]);
-    
+% bar3(region);
+% bar(hist);
 
