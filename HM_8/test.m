@@ -65,7 +65,9 @@ end
 original_intensities = Normalize(original_intensities);
 
 % for each frame
-for i = 1:1
+for i = 5:5
+    
+%     initial_parameter = current_parameter;
 
     current_frame = frames(:,:,i);
 
