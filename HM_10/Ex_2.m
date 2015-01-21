@@ -1,20 +1,29 @@
 
-% Third exercise: demostration of gradient, magnitude, and kernel combined
-% from several ones.
+%% Preprocess.
+
+img_orig = imread('office_3.jpg');
+
+template_top_left_x_y = [255, 330];
+template_bottom_right_x_y = [303, 366];
+
+template = img_orig(template_top_left_x_y(2):template_bottom_right_x_y(2), template_top_left_x_y(1):template_bottom_right_x_y(1), :);
+
+img_orientations = threshold_orientation( img_orig, 2);
+
+template_orientations = threshold_orientation( template, 2);
+
+amount_of_existing_orientations = numel(template_orientations) - sum(sum(isnan(template_orientations)));
 
 %% Computation
 
-clc; clear; close all;
+result = nlfilter(img_orientations, size(template_orientations), @(patch)  EM(template_orientations, patch, amount_of_existing_orientations ) );
 
-img_orig = rgb2gray(imread('peppers.png'));
+%% Show the result
 
-Gradient_x = [-1 0 1; -1 0 1; -1 0 1];
-Gradient_y = [-1 -1 -1; 0 0 0; 1 1 1];
+min_value = min(min(result));
 
-result_x_gradient = convolution(img_orig, Gradient_x, 'symmetric');
-result_y_gradient = convolution(img_orig, Gradient_y, 'symmetric');
+[row, col] = ind2sub(size(img_orientations), find(result == min_value) );
 
-Magnitude = (result_x_gradient).^2+(result_y_gradient.^2);
-Magnitude = Magnitude.^1/2;
-Orientation = atan(double(result_y_gradient./result_x_gradient));
-
+imshow(img_orig);
+hold on;
+plot(col, row, 'o');

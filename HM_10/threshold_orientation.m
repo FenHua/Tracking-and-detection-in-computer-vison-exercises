@@ -36,10 +36,9 @@ function [ result ] = threshold_orientation( img, threshold )
         end
     end
     
-    threshold_index = find(max_magn_values <= threshold);
+    max_orientation_values(max_magn_values <= threshold) = NaN;
     
-    max_orientation_values(threshold_index) = pi/2;
-    
+    result = max_orientation_values;
     
 
 end

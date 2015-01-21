@@ -23,6 +23,7 @@ for layer_number =  fliplr(1:(amount_of_layers-1))
     images_by_layer_number{layer_number} = imresize(bigger_img, 0.5);
     new_template = imresize(bigger_template, 0.5);
     
+    % Make template size uneven.
     template_row_amount = size(new_template, 1);
     template_col_amount = size(new_template, 2);
     
