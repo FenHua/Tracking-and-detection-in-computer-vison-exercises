@@ -1,5 +1,5 @@
 
-amount_of_matrices = 10;
+amount_of_matrices = 50;
 amount_of_parameters = 8;
 smallest_deviation = 3;
 biggest_deviation = 30;
@@ -7,6 +7,9 @@ img = rgb2gray( imread('images/0000.png') );
 
 rectangle_top_left_x_y = [103, 76];
 rectangle_bottom_right_x_y = [552, 383];
+
+rectangle_top_right_x_y = [rectangle_bottom_right_x_y(1), rectangle_top_left_x_y(2)];
+rectangle_bottom_left_x_y = [rectangle_top_left_x_y(1), rectangle_bottom_right_x_y(2)];
 
 x_span = rectangle_top_left_x_y(1):5:rectangle_top_right_x_y(1);
 y_span = rectangle_top_right_x_y(2):5:rectangle_bottom_right_x_y(2);

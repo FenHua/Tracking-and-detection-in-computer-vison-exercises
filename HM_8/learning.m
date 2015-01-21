@@ -5,13 +5,11 @@ function [ MatrixA ] = learning( img, x_y_random_value_range, rectangle_top_left
 n = 10000;
 
 %range for random noise
-a = -0.01;
-b = 0.01;
+a = -0.001;
+b = 0.001;
 
 MatrixP = [];
 MatrixI =[];
-
-
 
 
     for i = 1:n  
@@ -33,8 +31,6 @@ MatrixI =[];
         
         I = Normalize(I);
         
-        
-     
         %calculate normalized differences
         diffI = Iw - I;
         
@@ -48,7 +44,6 @@ MatrixI =[];
     
     size(MatrixP)
     size(MatrixI)
-    
     
     %Compute Matrix A
     
