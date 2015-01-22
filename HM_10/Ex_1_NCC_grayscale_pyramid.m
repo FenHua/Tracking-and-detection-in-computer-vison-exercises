@@ -7,6 +7,8 @@ images_by_layer_number = cell(amount_of_layers, 1);
 
 img = rgb2gray(imread('office_3.jpg'));
 
+orig_img = img;
+
 template_top_left_x_y = [255, 330];
 template_bottom_right_x_y = [303, 366];
 
@@ -44,16 +46,20 @@ end
 
 tic
 
-first_layer_img = images_by_layer_number{1};
-first_layer_template = templates_by_layer_number{1};
+first_layer_img = double(images_by_layer_number{1});
+first_layer_template = double(templates_by_layer_number{1});
 template_size = size(first_layer_template);
 img_size = size(first_layer_img);
 
-result = nlfilter(first_layer_img, template_size, @(patch) sum(sum( (first_layer_template - patch).^2 ) ));
+result = nlfilter(first_layer_img, template_size, @(patch) NCC(first_layer_template, patch));
 
 max_value = max(max(result));
 
-[row, col] = ind2sub(img_size, find(result <= ( max_value*0.2 )));
+max_value
+
+[row, col] = ind2sub(img_size, find(result >= 0.95));
+
+size(row)
 
 points_of_interest = [row col];
 
@@ -120,28 +126,25 @@ for layer_number = 2:amount_of_layers
     
     % Compute the results for the points that are left.
 
-    result  = selected_nlfilter( img, coords, @(patch) sum(sum( ( double(template) - double(patch)).^2 )) , size(template), 'symmetric');
+    result  = selected_nlfilter( img, coords, @(patch) NCC(template, patch) , size(template), 'symmetric');
     
-
-    max_value = max(result);
+    max_value = max(result)
     
     % Threshold value: 4 times the minimum value.
-    index_of_points_for_next_level = find(result <= ( max_value*0.2 ));
-    
-    find(coords(:, 1) == 348 & coords(:, 2) == 279)
+    index_of_points_for_next_level = find(result >=  0.95);
     
     points_of_interest = coords(index_of_points_for_next_level, :);
     
+    size(points_of_interest)
+    
 end
 
-[value, position] = min(result);
+[value, position] = max(result);
 
 coordinates = coords(position, :);
 
 toc
 
-imshow(img);
+imshow(orig_img);
 hold on;
 plot(coordinates(2), coordinates(1), 'o');
-
-

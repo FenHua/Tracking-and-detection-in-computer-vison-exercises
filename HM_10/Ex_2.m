@@ -20,9 +20,9 @@ result = nlfilter(img_orientations, size(template_orientations), @(patch)  EM(te
 
 %% Show the result
 
-min_value = min(min(result));
+max_value = max(max(result));
 
-[row, col] = ind2sub(size(img_orientations), find(result == min_value) );
+[row, col] = ind2sub(size(img_orientations), find(result == max_value) );
 
 imshow(img_orig);
 hold on;

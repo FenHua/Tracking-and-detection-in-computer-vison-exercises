@@ -1,11 +1,10 @@
-function [ result ] = threshold_orientation( img, threshold )
+function [ result ] = threshold_orientation( img_orig, threshold )
     %THRESHOLD_ORIENTATION Summary of this function goes here
     %   Detailed explanation goes here
     
     Gradient_x = [-1 0 1; -1 0 1; -1 0 1];
     Gradient_y = [-1 -1 -1; 0 0 0; 1 1 1];
     
-    img_orig = imread('peppers.png');
     
     magnitudes_bands = zeros(size(img_orig));
     orientation_bands = zeros(size(img_orig));
@@ -26,6 +25,7 @@ function [ result ] = threshold_orientation( img, threshold )
     end
     
     [max_magn_values, max_magn_indexes] = max(magnitudes_bands, [], 3);
+    
     
     max_orientation_values = zeros(size(orientation_bands, 1), size(orientation_bands, 2));
     
