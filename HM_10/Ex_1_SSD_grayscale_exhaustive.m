@@ -21,6 +21,8 @@ min_element_value = min(min(result));
 
 toc
 
+%%
+
 imshow(img);
 hold on;
 plot(col, row, 'o');
