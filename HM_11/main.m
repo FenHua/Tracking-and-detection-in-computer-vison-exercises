@@ -1,13 +1,15 @@
 % Initialization
 
-N = 100;
+run('../../dependencies/vlfeat-0.9.19/toolbox/vl_setup');
+
+N = 300;
 x = 648;
 y = 283;
 w = 51;
 h = 59;
 
 
-img = imread('images/img000000.jpeg');
+img = rgb2gray( imread('images/img000000.jpeg') );
 
 
 samples = zeros(2,N);
@@ -18,10 +20,10 @@ weights = weights/N;
 samples(1,1:N) = x;
 samples(2,1:N) = y;
 
-gaussian_noise = normrnd(0, 2 , size( samples ));
+gaussian_noise = normrnd(0, 3 , size( samples ));
 
-samples = samples + gaussian_noise;
-features_prev = zeros(N,1080);
+samples = round(samples + gaussian_noise);
+features_prev = zeros(N, 372);
 
 for sample_number = 1 : N
     
@@ -29,9 +31,18 @@ for sample_number = 1 : N
     b_y = round(samples(2,sample_number));
     
     
-    bounded_box = img(b_y : b_y+h ,b_x : b_x+w);
+    bounded_box = single(img(b_y : b_y+h ,b_x : b_x+w));
     
-    features = extractHOGFeatures(bounded_box);
+    % features = extractHOGFeatures(bounded_box);
+    
+    cellSize = 15 ;
+    
+    features = vl_hog(bounded_box, cellSize, 'verbose') ;
+    
+    features = double(features(:)');
+    
+    size(features)
+    
     features = features/sum(features);
     features_prev(sample_number,:) =  features;
     
@@ -42,39 +53,47 @@ imshow(img);
 hold on;
 rectangle('Position',[648,283,51,59],'EdgeColor','r','LineWidth',2 );
 
-
-
 %% Tracking
-for frame_number = 1:20
+for frame_number = 1:163
     
-    features_cur = zeros(N,1080);
+    
+    %calculating prior for the next frame
+    gaussian_noise = normrnd(0, 3 , size( samples ));
+    samples = round(samples + gaussian_noise);
+    
+     
+    
+    features_cur = zeros(N, 372);
     LH = zeros(1,N);
 
     img_name = sprintf('images/img%06d.jpeg', frame_number);
 
-    frame = imread(img_name);% changed
+    frame = rgb2gray(imread(img_name) );% changed
     
-    
-    
+
     for sample_number = 1 : N
     
         b_x = round(samples(1,sample_number));
         b_y = round(samples(2,sample_number));
 
 
-        bounded_box = frame(b_y : b_y+h ,b_x : b_x+w);
+        bounded_box = single(frame(b_y : b_y+h ,b_x : b_x+w));
+        
+        features = vl_hog(bounded_box, cellSize, 'verbose') ;
+    
+        features = double(features(:)');
 
-        features = extractHOGFeatures(bounded_box);
+%         features = extractHOGFeatures(bounded_box);
         features = features/sum(features);
 
-        dist  = bhattacharyya(features_prev(sample_number,:),features);
+        dist  = bhattacharyya(features_prev(sample_number,:), features);
 
         likelihood = 1/(1 + exp(10 * (dist)));
         %LH(1,sample_number) = likelihood;
 
         weights(1,sample_number) = weights(1,sample_number) * likelihood;
 
-        features_cur(sample_number,:) =  features ;
+        features_cur(sample_number, :) =  features ;
     
     end
 
@@ -86,11 +105,18 @@ for frame_number = 1:20
     f_y = samples(2,index);
     
     %showing the bounded box for the frame
-%     close all;
-    figure;
-    imshow(frame);
+  %close all;
+%     figure;
+%     imshow(frame);
+%     hold on;
+%     rectangle('Position',[f_x,f_y,w,h],'EdgeColor','r','LineWidth',2);
+
+    image_handler = imshow(frame);
     hold on;
     rectangle('Position',[f_x,f_y,w,h],'EdgeColor','r','LineWidth',2);
+    %saveas(image_handler, sprintf('result_images/%d.jpg', frame_number));
+    pause(0.1);
+    close all;
     
     new_samples = [];
     new_weights = [];
@@ -107,7 +133,7 @@ for frame_number = 1:20
         cur_x = samples(1,i);
         cur_y = samples(2,i);
         cur_w = weights(1,i);
-        cur_HOG = features_cur(i,:);
+        cur_HOG = features_prev(i,:);
         
         cur_prob = round(weights(1,i) * N);
         
@@ -115,6 +141,8 @@ for frame_number = 1:20
         if(cur_prob > 0 && count < N)
             
             count = count+cur_prob;
+            
+%             cur_prob = cur_prob + 3;
             
             if(count > N)
                 
@@ -141,11 +169,6 @@ for frame_number = 1:20
             new_weights = [new_weights temp_w];
             new_HOG = [new_HOG ;temp_HOG];
             
-            
-            
-            
-            
-            
         end
         
               
@@ -158,15 +181,15 @@ for frame_number = 1:20
     
     
     
+    
     %calculating prior for the next frame
-    gaussian_noise = normrnd(0, 1 , size( samples ));
-    samples = samples + gaussian_noise;
+%     gaussian_noise = normrnd(0, 2 , size( samples ));
+%     samples = samples + gaussian_noise;
+%     
     
-    
-
-    
-    
-    
-    
-  
 end
+
+figure;
+    imshow(frame);
+    hold on;
+    rectangle('Position',[f_x,f_y,w,h],'EdgeColor','r','LineWidth',2);
